@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const statusCode = 200;
@@ -22,7 +20,7 @@ exports.handler = async function(event) {
   const data = JSON.parse(event.body);
 
   // Make sure we have all required data. Otherwise, get outta here.
-  if (!data.token || !data.amount || !data.idempotency_key) {
+  if (!data.token || !data.amount ) {
     const message = "Required information is missing!";
 
     console.error(message);
@@ -47,9 +45,6 @@ exports.handler = async function(event) {
         source: data.token.id,
         receipt_email: data.token.email,
         description: `charge for a widget`
-      },
-      {
-        idempotency_key: data.idempotency_key
       }
     );
   } catch (e) {

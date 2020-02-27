@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4';
-
 const amount = 1000;
 const $messageBox = document.getElementById('messageBox');
 const $button = document.querySelector('button');
@@ -9,7 +7,7 @@ function resetButtonText() {
 }
 
 const handler = StripeCheckout.configure({
-  key: STRIPE_PUBLISHABLE_KEY,
+  key: "pk_test_rlYZWgwY4s91t59PGrMMgbTV002VxcOY2Z",
   image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
   locale: 'auto',
   closed: function () {
@@ -20,12 +18,11 @@ const handler = StripeCheckout.configure({
     let response, data;
 
     try {
-      response = await fetch(LAMBDA_ENDPOINT, {
+      response = await fetch("http://localhost:8888/.netlify/functions/purchase/purchase.js", {
         method: 'POST',
         body: JSON.stringify({
           token,
-          amount,
-          idempotency_key: uuid()
+          amount
         }),
         headers: new Headers({
           'Content-Type': 'application/json'
@@ -35,6 +32,7 @@ const handler = StripeCheckout.configure({
       data = await response.json();
     } catch (error) {
       console.error(error.message);
+      alert("ERROR: CARGO NO REALIZADO");
       return;
     }
 

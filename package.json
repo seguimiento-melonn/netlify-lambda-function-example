@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
+    "bundle-js": "^1.0.3",
     "dotenv": "^7.0.0",
     "stripe": "^6.36.0",
     "uuid": "^3.3.3"
